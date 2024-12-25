@@ -39,13 +39,7 @@ function Board() {
     if (winner) {
       setGameState(`Game Over! Winner: ${winner}`);
     } else if (nextSquares.every((square) => square !== null)) {
-      setGameState(
-        <>
-          Game Over!
-          <br />
-          It&apos;s a draw!
-        </>,
-      );
+      setGameState("Game Over! It&apos;s a draw!");
     } else {
       const player = nextIsX ? "X" : "O";
       setGameState(`Next Player: ${player}`);
