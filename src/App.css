@@ -1,0 +1,16 @@
+#root {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 2rem;
+    text-align: center;
+}
+.board {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+}
+button {
+    width: 100px;
+    height: 100px;
+    font-size: 2rem;
+    margin: 0.5rem;
+}
