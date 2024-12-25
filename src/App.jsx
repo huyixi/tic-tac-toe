@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./App.css";
 
 function Square({ value, onSquareClick }) {
@@ -12,6 +12,7 @@ function Square({ value, onSquareClick }) {
 function Board() {
   const [squares, setSquares] = useState(Array(9).fill(null));
   const [nextIsX, setNextIsX] = useState(true);
+  const [gameState, setGameState] = useState("");
 
   function calculateWinner(squares) {
     const lines = [
@@ -32,11 +33,36 @@ function Board() {
     return null;
   }
 
+  const updateGameState = (squares) => {
+    const winner = calculateWinner(squares);
+    const nextSquares = squares.slice();
+    if (winner) {
+      setGameState(`Game Over! Winner: ${winner}`);
+    } else if (nextSquares.every((square) => square !== null)) {
+      setGameState(
+        <>
+          Game Over!
+          <br />
+          It&apos;s a draw!
+        </>,
+      );
+    } else {
+      const player = nextIsX ? "X" : "O";
+      setGameState(`Next Player: ${player}`);
+    }
+  };
+
+  useEffect(() => {
+    updateGameState(squares);
+  }, [squares]);
+
   function handleClick(i) {
-    if (squares[i] || calculateWinner(squares)) return;
+    const winner = calculateWinner(squares);
+    updateGameState(squares);
+    if (squares[i] || winner) return;
     const nextSquares = squares.slice();
     setNextIsX(!nextIsX);
-    nextIsX ? (nextSquares[i] = "X") : (nextSquares[i] = "O");
+    nextSquares[i] = nextIsX ? "X" : "O";
     setSquares(nextSquares);
   }
 
@@ -47,15 +73,6 @@ function Board() {
       onSquareClick={() => handleClick(index)}
     />
   ));
-
-  const winner = calculateWinner(squares);
-  let gameState = "";
-  if (winner) {
-    gameState = `Game Over! Winner: ${winner}`;
-  } else {
-    const player = nextIsX ? "X" : "O";
-    gameState = `Next Player: ${player}`;
-  }
 
   return (
     <>
