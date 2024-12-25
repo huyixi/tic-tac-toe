@@ -89,9 +89,9 @@ function Board() {
 
   return (
     <>
-      {isStart(gameState)}
       <p>{gameTip}</p>
       <div className="board">{SquareList}</div>
+      {isStart(gameState)}
     </>
   );
 }
