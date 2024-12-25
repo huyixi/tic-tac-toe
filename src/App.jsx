@@ -13,7 +13,7 @@ function Board() {
   const [squares, setSquares] = useState(Array(9).fill(null));
   const [nextIsX, setNextIsX] = useState(true);
 
-  function caculateWinner(squares) {
+  function calculateWinner(squares) {
     const lines = [
       [0, 1, 2],
       [3, 4, 5],
@@ -39,7 +39,7 @@ function Board() {
   }
 
   function handleClick(i) {
-    if (squares[i] || caculateWinner(squares)) return;
+    if (squares[i] || calculateWinner(squares)) return;
     const nextSquares = squares.slice();
     setNextIsX(!nextIsX);
     nextIsX ? (nextSquares[i] = "X") : (nextSquares[i] = "O");
@@ -54,9 +54,18 @@ function Board() {
     />
   ));
 
+  const winner = calculateWinner(squares);
+  let gameState = "";
+  if (winner) {
+    gameState = `Game Over! Winner: ${winner}`;
+  } else {
+    const player = nextIsX ? "X" : "O";
+    gameState = `Next Player: ${player}`;
+  }
+
   return (
     <>
-      <p>{squares}</p>
+      <p>{gameState}</p>
       <div className="board">{SquareList}</div>
     </>
   );
